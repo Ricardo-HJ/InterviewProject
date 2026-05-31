@@ -1,0 +1,12 @@
+[project]
+name = "mock-apis"
+version = "0.1.0"
+description = "Three fully-built mock HR Provider APIs for the Employee Aggregator take-home"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+]
+
+[tool.uv]
+package = false
