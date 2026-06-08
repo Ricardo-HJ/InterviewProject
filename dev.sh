@@ -19,9 +19,9 @@ if [ -f "$ROOT/.env" ]; then
 fi
 
 echo "Starting mock Providers (9001 / 9002 / 9003)..."
-( cd "$ROOT/mock_apis" && uv run uvicorn mock_apis.provider_a:app --port 9001 --reload ) & pids+=($!)
-( cd "$ROOT/mock_apis" && uv run uvicorn mock_apis.provider_b:app --port 9002 --reload ) & pids+=($!)
-( cd "$ROOT/mock_apis" && uv run uvicorn mock_apis.provider_c:app --port 9003 --reload ) & pids+=($!)
+( cd "$ROOT" && uv --project "$ROOT/mock_apis" run uvicorn mock_apis.provider_a:app --port 9001 --reload ) & pids+=($!)
+( cd "$ROOT" && uv --project "$ROOT/mock_apis" run uvicorn mock_apis.provider_b:app --port 9002 --reload ) & pids+=($!)
+( cd "$ROOT" && uv --project "$ROOT/mock_apis" run uvicorn mock_apis.provider_c:app --port 9003 --reload ) & pids+=($!)
 
 echo "Starting proxy (8000)..."
 ( cd "$ROOT/proxy" && uv run uvicorn main:app --port 8000 --reload ) & pids+=($!)

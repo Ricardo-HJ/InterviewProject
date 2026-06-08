@@ -19,6 +19,9 @@ from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 
+from .sample_data import cobalt_people
+from .seed_data import COBALT_PEOPLE
+
 BEARER_TOKEN = os.environ.get("COBALT_TOKEN", "cobalt-bearer-token")
 
 _bearer = HTTPBearer(auto_error=False)
@@ -34,54 +37,8 @@ def require_bearer(
         )
 
 
-# --- Seed data, in Cobalt's own shape ------------------------------------------------
-PEOPLE: list[dict] = [
-    {
-        "uuid": "cobalt-9f3a2b",
-        "name": {"given": "María", "family": "González"},
-        "contact": {"email": "maria.gonzalez@acme.com ", "phone": "+52 55 1234 5678"},
-        "assignment": {"role": "Software Engineer", "org_unit": "Engineering Dept"},
-        "lifecycle_status": "employed",
-        "pay": {"value": 840000, "unit": "year", "iso_currency": "MXN"},
-        "joined": "15/03/2021",
-    },
-    {
-        "uuid": "cobalt-1c4d",
-        "name": {"given": "James", "family": "Smith"},
-        "contact": {"email": "James.Smith@acme.com", "phone": "+52 55 2222 3333"},
-        "assignment": {"role": "Product Manager", "org_unit": "Product Team"},
-        "lifecycle_status": "employed",
-        "pay": {"value": 960000, "unit": "year", "iso_currency": "MXN"},
-        "joined": "01/07/2019",
-    },
-    {
-        "uuid": "cobalt-7e8f",
-        "name": {"given": "Yuki", "family": "Tanaka"},
-        "contact": {"email": " yuki.tanaka@acme.com", "phone": "+52 55 4444 5555"},
-        "assignment": {"role": "Data Analyst", "org_unit": "Data"},
-        "lifecycle_status": "employed",
-        "pay": {"value": 720000, "unit": "year", "iso_currency": "MXN"},
-        "joined": "10/01/2022",
-    },
-    {
-        "uuid": "cobalt-3a2b",
-        "name": {"given": "David", "family": "Cohen"},
-        "contact": {"email": "david.cohen@acme.com", "phone": "+52 55 6666 7777"},
-        "assignment": {"role": "Sales Executive", "org_unit": "Sales"},
-        "lifecycle_status": "employed",
-        "pay": {"value": 690000, "unit": "year", "iso_currency": "MXN"},
-        "joined": "06/06/2022",
-    },
-    {
-        "uuid": "cobalt-5d6e",
-        "name": {"given": "Fatima", "family": "Noor"},
-        "contact": {"email": "fatima.noor@acme.com", "phone": "+52 55 8888 9999"},
-        "assignment": {"role": "Customer Success Manager", "org_unit": "Customer Success"},
-        "lifecycle_status": "former",
-        "pay": {"value": 750000, "unit": "year", "iso_currency": "MXN"},
-        "joined": "22/08/2016",
-    },
-]
+PEOPLE: list[dict] = [*COBALT_PEOPLE]
+PEOPLE.extend(cobalt_people(seed_count=len(PEOPLE)))
 
 
 class SearchRequest(BaseModel):
