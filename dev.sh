@@ -24,7 +24,7 @@ echo "Starting mock Providers (9001 / 9002 / 9003)..."
 ( cd "$ROOT" && uv --project "$ROOT/mock_apis" run uvicorn mock_apis.provider_c:app --port 9003 --reload ) & pids+=($!)
 
 echo "Starting proxy (8000)..."
-( cd "$ROOT/proxy" && uv run uvicorn main:app --port 8000 --reload ) & pids+=($!)
+( cd "$ROOT/proxy" && uv run python -m uvicorn main:app --port 8000 --reload ) & pids+=($!)
 
 echo "Starting frontend (3000)..."
 ( cd "$ROOT/frontend" && bun --bun run dev ) & pids+=($!)
